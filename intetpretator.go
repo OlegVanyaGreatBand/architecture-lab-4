@@ -1,9 +1,9 @@
 package main
 
 import (
-	"./engine"
-	"./commands"
 	"bufio"
+	"github.com/OlegVanyaGreatBand/architecture-lab-4/commands"
+	"github.com/OlegVanyaGreatBand/architecture-lab-4/engine"
 	"os"
 )
 

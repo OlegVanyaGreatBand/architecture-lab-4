@@ -1,8 +1,8 @@
 package commands
 
 import (
-	"../engine"
 	"fmt"
+	"github.com/OlegVanyaGreatBand/architecture-lab-4/engine"
 	"strings"
 )
 

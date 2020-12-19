@@ -7,6 +7,7 @@ import (
 type Command interface {
 	Execute(h Handler)
 }
+
 type Handler interface {
 	Post(cmd Command)
 }
@@ -18,6 +19,7 @@ type messageQueue struct {
 	receiveSignal chan struct{}
 	receiveRequested bool
 }
+
 func (mq *messageQueue) push(command Command) {
 	mq.Lock()
 	defer mq.Unlock()
@@ -28,6 +30,7 @@ func (mq *messageQueue) push(command Command) {
 		mq.receiveSignal <- struct{}{}
 	}
 }
+
 func (mq *messageQueue) pull() Command {
 	mq.Lock()
 	defer mq.Unlock()
@@ -64,7 +67,9 @@ func (l *Loop) Start() {
 		l.stopSignal <- struct{}{}
 	} ()
 }
+
 type CommandFunc func(h Handler)
+
 func (cf CommandFunc) Execute(h Handler) {
 	cf(h)
 }
@@ -75,6 +80,7 @@ func (l *Loop) AwaitFinish() {
 	}))
 	<- l.stopSignal
 }
+
 func (l *Loop) Post(cmd Command) {
 	l.mq.push(cmd)
 }
