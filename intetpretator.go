@@ -1,10 +1,10 @@
 package main
 
 import (
-	"./commands"
-	"./engine"
 	"bufio"
 	"flag"
+	"github.com/OlegVanyaGreatBand/architecture-lab-4/commands"
+	"github.com/OlegVanyaGreatBand/architecture-lab-4/engine"
 	"io"
 	"io/ioutil"
 	"os"
