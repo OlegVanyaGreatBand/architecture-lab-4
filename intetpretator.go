@@ -1,30 +1,43 @@
 package main
 
 import (
+	"./commands"
+	"./engine"
 	"bufio"
-	"github.com/OlegVanyaGreatBand/architecture-lab-4/commands"
-	"github.com/OlegVanyaGreatBand/architecture-lab-4/engine"
+	"flag"
+	"io"
+	"io/ioutil"
 	"os"
+	"strings"
 )
 
-func main()  { /*
-	l := new(engine.Loop)
-	l.Start()
-	l.Post(&commands.PrintCmd{"ki"})
-	l.AwaitFinish()*/
+var (
+	inputFile = flag.String("f", "", "Expression to compute")
+)
+func main()  {
+	flag.Parse()
+
+	var source io.Reader
+
+    if *inputFile != "" {
+		data, err := ioutil.ReadFile(*inputFile)
+		if err != nil {
+			_, _ = os.Stderr.WriteString(err.Error())
+			return
+		}
+		source = strings.NewReader(string(data))
+	} else {
+		_, _ = os.Stderr.WriteString("No expression provided")
+		return
+	}
 
 	eventLoop := new(engine.Loop)
 	eventLoop.Start()
-	inputFile := "test.txt"
-	if input, err := os.Open(inputFile); err == nil {
-		defer input.Close()
-		scanner := bufio.NewScanner(input)
+		scanner := bufio.NewScanner(source)
 		for scanner.Scan() {
 			commandLine := scanner.Text()
 			cmd := commands.Parse(commandLine) // parse the line to get an instance of Command
 			eventLoop.Post(cmd)
 		}
-	}
-
 	eventLoop.AwaitFinish()
 }
