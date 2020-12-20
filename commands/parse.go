@@ -13,23 +13,23 @@ func Parse(command string) engine.Command {
 
 
 	var parsed engine.Command = &PrintCmd{
-		fmt.Sprintf("ParsingError: Invalid command: %s", command),
+		fmt.Sprintf("PARSING ERROR: Invalid command: %s", command),
 	}
 
 	l := len(splitted)
 	switch command := splitted[0]; command {
 	case "print":
-		if l != 2 {
+		if l < 2 {
 			parsed = &PrintCmd{
-				fmt.Sprintf("SyntaxError: Invalid count of arguments for print: %d", l),
+				fmt.Sprintf("SYNTAX ERROR: Trying to print an empty line"),
 			}
 		} else {
-			parsed = &PrintCmd{splitted[1]}
+			parsed = &PrintCmd{strings.Join(splitted[1:], " ")}
 		}
 	case "split":
 		if l != 3 {
 			parsed = &PrintCmd{
-				fmt.Sprintf("SyntaxError: Invalid count of arguments for split: %d", l),
+				fmt.Sprintf("SYNTAX ERROR: Invalid count of arguments for split: %d", l),
 			}
 		} else {
 			parsed = &SplitCmd{
